@@ -1,8 +1,11 @@
+package aiss.gitlabminer.model;
 
-package aiss.gitlabminer.model.commits;
-
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,9 +13,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "id",
-    "short_id",
-    "created_at",
-    "parent_ids",
     "title",
     "message",
     "author_name",
@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "committer_name",
     "committer_email",
     "committed_date",
-    "trailers",
     "web_url"
 })
 @Generated("jsonschema2pojo")
@@ -29,12 +28,6 @@ public class Commits {
 
     @JsonProperty("id")
     private String id;
-    @JsonProperty("short_id")
-    private String shortId;
-    @JsonProperty("created_at")
-    private String createdAt;
-    @JsonProperty("parent_ids")
-    private List<String> parentIds;
     @JsonProperty("title")
     private String title;
     @JsonProperty("message")
@@ -51,10 +44,10 @@ public class Commits {
     private String committerEmail;
     @JsonProperty("committed_date")
     private String committedDate;
-    @JsonProperty("trailers")
-    private Trailers trailers;
     @JsonProperty("web_url")
     private String webUrl;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("id")
     public String getId() {
@@ -64,36 +57,6 @@ public class Commits {
     @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
-    }
-
-    @JsonProperty("short_id")
-    public String getShortId() {
-        return shortId;
-    }
-
-    @JsonProperty("short_id")
-    public void setShortId(String shortId) {
-        this.shortId = shortId;
-    }
-
-    @JsonProperty("created_at")
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    @JsonProperty("created_at")
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @JsonProperty("parent_ids")
-    public List<String> getParentIds() {
-        return parentIds;
-    }
-
-    @JsonProperty("parent_ids")
-    public void setParentIds(List<String> parentIds) {
-        this.parentIds = parentIds;
     }
 
     @JsonProperty("title")
@@ -176,16 +139,6 @@ public class Commits {
         this.committedDate = committedDate;
     }
 
-    @JsonProperty("trailers")
-    public Trailers getTrailers() {
-        return trailers;
-    }
-
-    @JsonProperty("trailers")
-    public void setTrailers(Trailers trailers) {
-        this.trailers = trailers;
-    }
-
     @JsonProperty("web_url")
     public String getWebUrl() {
         return webUrl;
@@ -196,6 +149,16 @@ public class Commits {
         this.webUrl = webUrl;
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -203,18 +166,6 @@ public class Commits {
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("shortId");
-        sb.append('=');
-        sb.append(((this.shortId == null)?"<null>":this.shortId));
-        sb.append(',');
-        sb.append("createdAt");
-        sb.append('=');
-        sb.append(((this.createdAt == null)?"<null>":this.createdAt));
-        sb.append(',');
-        sb.append("parentIds");
-        sb.append('=');
-        sb.append(((this.parentIds == null)?"<null>":this.parentIds));
         sb.append(',');
         sb.append("title");
         sb.append('=');
@@ -248,13 +199,13 @@ public class Commits {
         sb.append('=');
         sb.append(((this.committedDate == null)?"<null>":this.committedDate));
         sb.append(',');
-        sb.append("trailers");
-        sb.append('=');
-        sb.append(((this.trailers == null)?"<null>":this.trailers));
-        sb.append(',');
         sb.append("webUrl");
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
+        sb.append(',');
+        sb.append("additionalProperties");
+        sb.append('=');
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
