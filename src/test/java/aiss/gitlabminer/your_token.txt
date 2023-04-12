@@ -1,0 +1,6 @@
+***THIS FILE MUST CONTAIN ONLY ONE LINE COMPOSED BY YOUR TOKEN***
+
+1- Copy this file and rename it as token.txt
+2- Paste here your gitlab personal token
+3- Remove these indications
+
