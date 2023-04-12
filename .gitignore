@@ -34,5 +34,5 @@ build/
 
 
 ### TOKEN ###
-token.txt
+src/test/java/aiss/gitlabminer/token.txt
 

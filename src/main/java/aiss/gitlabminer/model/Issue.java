@@ -1,5 +1,8 @@
 package aiss.gitlabminer.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Generated;
 
@@ -201,6 +204,17 @@ public class Issue {
     public void setAssignee(User assignee) {
         this.assignee = assignee;
     }
+
+    public Date getUpdatedDate(){
+        Date date = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        try {
+            date = dateFormat.parse(this.updatedAt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -215,11 +229,11 @@ public class Issue {
         sb.append(',');
         sb.append("title");
         sb.append('=');
-        sb.append(((this.title == null)?"<null>":this.title));
+        //sb.append(((this.title == null)?"<null>":this.title));
         sb.append(',');
         sb.append("description");
         sb.append('=');
-        sb.append(((this.description == null)?"<null>":this.description));
+        //sb.append(((this.description == null)?"<null>":this.description));
         sb.append(',');
         sb.append("state");
         sb.append('=');

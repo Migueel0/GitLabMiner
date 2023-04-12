@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.util.Date;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "id",
@@ -157,58 +162,68 @@ public class Commit {
         this.project = project;
     }
 
+
+    public Date getCommittedDateFormat(){
+        Date date = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        try {
+            date = dateFormat.parse(this.committedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
+        sb.append("\n[id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("title");
         sb.append('=');
-        sb.append(((this.title == null)?"<null>":this.title));
-        sb.append(',');
+        //sb.append(((this.title == null)?"<null>":this.title));
+        sb.append(",\n");
         sb.append("message");
         sb.append('=');
-        sb.append(((this.message == null)?"<null>":this.message));
-        sb.append(',');
+        //sb.append(((this.message == null)?"<null>":this.message));
+        sb.append(",\n");
         sb.append("authorName");
         sb.append('=');
         sb.append(((this.authorName == null)?"<null>":this.authorName));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("authorEmail");
         sb.append('=');
         sb.append(((this.authorEmail == null)?"<null>":this.authorEmail));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("authoredDate");
         sb.append('=');
         sb.append(((this.authoredDate == null)?"<null>":this.authoredDate));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("committerName");
         sb.append('=');
         sb.append(((this.committerName == null)?"<null>":this.committerName));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("committerEmail");
         sb.append('=');
         sb.append(((this.committerEmail == null)?"<null>":this.committerEmail));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("committedDate");
         sb.append('=');
         sb.append(((this.committedDate == null)?"<null>":this.committedDate));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("webUrl");
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("project");
         sb.append('=');
         sb.append(((this.project == null)?"<null>":this.project));
-        sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
-            sb.append(']');
+            sb.append("]\n");
         }
         return sb.toString();
     }
