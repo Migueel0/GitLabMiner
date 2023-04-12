@@ -1,11 +1,7 @@
 package aiss.gitlabminer.model;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,11 +17,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "committer_name",
     "committer_email",
     "committed_date",
-    "web_url"
+    "web_url",
+    "project"
 })
-@Generated("jsonschema2pojo")
-public class Commits {
 
+
+@Generated("jsonschema2pojo")
+
+public class Commit {
     @JsonProperty("id")
     private String id;
     @JsonProperty("title")
@@ -46,8 +45,8 @@ public class Commits {
     private String committedDate;
     @JsonProperty("web_url")
     private String webUrl;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+    @JsonProperty("project")
+    private Project project;
 
     @JsonProperty("id")
     public String getId() {
@@ -149,20 +148,19 @@ public class Commits {
         this.webUrl = webUrl;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("project")
+    public Project getProject() {
+        return project;
     }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("project")
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Commits.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -203,9 +201,9 @@ public class Commits {
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(',');
-        sb.append("additionalProperties");
+        sb.append("project");
         sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(((this.project == null)?"<null>":this.project));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

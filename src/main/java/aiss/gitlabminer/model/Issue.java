@@ -1,12 +1,8 @@
 package aiss.gitlabminer.model;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -23,10 +19,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "closed_at",
     "labels",
     "upvotes",
-    "downvotes"
+    "downvotes",
+    "project",
+    "comments",
+    "author",
+    "assignee"
 })
 @Generated("jsonschema2pojo")
-public class Issues {
+public class Issue {
 
     @JsonProperty("id")
     private String id;
@@ -50,8 +50,14 @@ public class Issues {
     private Integer upvotes;
     @JsonProperty("downvotes")
     private Integer downvotes;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+    @JsonProperty("project")
+    private Project project;
+    @JsonProperty("comments")
+    private List<Comment> comments;
+    @JsonProperty("author")
+    private User author;
+    @JsonProperty("assignee")
+    private User assignee;
 
     @JsonProperty("id")
     public String getId() {
@@ -163,20 +169,42 @@ public class Issues {
         this.downvotes = downvotes;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("project")
+    public Project getProject() {
+        return project;
     }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("project")
+    public void setProject(Project project) {
+        this.project = project;
     }
-
+    @JsonProperty("comments")
+    public List<Comment> getComments() {
+        return comments;
+    }
+    @JsonProperty("comments")
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+    @JsonProperty("author")
+    public User getAuthor() {
+        return author;
+    }
+    @JsonProperty("author")
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+    @JsonProperty("assignee")
+    public User getAssignee() {
+        return assignee;
+    }
+    @JsonProperty("assignee")
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Issues.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Issue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -221,9 +249,21 @@ public class Issues {
         sb.append('=');
         sb.append(((this.downvotes == null)?"<null>":this.downvotes));
         sb.append(',');
-        sb.append("additionalProperties");
+        sb.append("project");
         sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(((this.project == null)?"<null>":this.project));
+        sb.append(',');
+        sb.append("comments");
+        sb.append('=');
+        sb.append(((this.comments == null)?"<null>":this.comments));
+        sb.append(',');
+        sb.append("author");
+        sb.append('=');
+        sb.append(((this.author == null)?"<null>":this.author));
+        sb.append(',');
+        sb.append("assignee");
+        sb.append('=');
+        sb.append(((this.assignee == null)?"<null>":this.assignee));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

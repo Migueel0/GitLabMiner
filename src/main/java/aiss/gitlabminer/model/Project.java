@@ -1,9 +1,14 @@
 
 package aiss.gitlabminer.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,19 +20,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "id",
     "name",
-    "web_url"
+    "web_url",
+    "commits",
+    "issues"
 })
-@Generated("jsonschema2pojo")
-public class Projects {
 
+public class Project {
+    @Id
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")
+    @NotEmpty(message = "The name of the project cannot be empty")
     private String name;
     @JsonProperty("web_url")
+    @NotEmpty(message = "The web url of the project cannot be empty")
     private String webUrl;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+
+    @JsonProperty("commits")
+    private List<Commit> commits;
+    @JsonProperty("issues")
+    private List<Issue> issues;
 
     @JsonProperty("id")
     public String getId() {
@@ -59,20 +71,24 @@ public class Projects {
         this.webUrl = webUrl;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("commits")
+    public List<Commit> getCommits(){return commits;}
+    @JsonProperty("commits")
+    public void setCommits(List<Commit> commits){this.commits = commits;}
+
+    @JsonProperty("issues")
+    public List<Issue> getIssues() {
+        return issues;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("issues")
+    public void setIssues(List<Issue> issuesList) {
+        this.issues = issuesList;
     }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Projects.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -85,9 +101,13 @@ public class Projects {
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(',');
-        sb.append("additionalProperties");
+        sb.append("commits");
         sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(((this.commits == null)?"<null>":this.commits));
+        sb.append(',');
+        sb.append("issues");
+        sb.append('=');
+        sb.append(((this.issues == null)?"<null>":this.issues));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

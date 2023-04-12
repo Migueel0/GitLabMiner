@@ -15,10 +15,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "id",
     "body",
     "created_at",
-    "updated_at"
+    "updated_at",
+    "issue",
+    "author"
 })
 @Generated("jsonschema2pojo")
-public class Comments {
+public class Comment {
 
     @JsonProperty("id")
     private String id;
@@ -28,8 +30,11 @@ public class Comments {
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+    @JsonProperty("issue")
+    private Issue issue;
+    @JsonProperty("author")
+    private User author;
+
 
     @JsonProperty("id")
     public String getId() {
@@ -71,20 +76,29 @@ public class Comments {
         this.updatedAt = updatedAt;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("issue")
+    public Issue getIssue() {
+        return issue;
+    }
+    @JsonProperty("issue")
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("author")
+    public User getAuthor() {
+        return author;
     }
+    @JsonProperty("author")
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Comments.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Comment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -101,9 +115,13 @@ public class Comments {
         sb.append('=');
         sb.append(((this.updatedAt == null)?"<null>":this.updatedAt));
         sb.append(',');
-        sb.append("additionalProperties");
+        sb.append("issue");
         sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(((this.issue == null)?"<null>":this.issue));
+        sb.append(',');
+        sb.append("authort");
+        sb.append('=');
+        sb.append(((this.author == null)?"<null>":this.author));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
