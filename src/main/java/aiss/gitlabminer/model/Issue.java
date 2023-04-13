@@ -205,16 +205,7 @@ public class Issue {
         this.assignee = assignee;
     }
 
-    public Date getUpdatedDate(){
-        Date date = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        try {
-            date = dateFormat.parse(this.updatedAt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

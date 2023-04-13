@@ -163,16 +163,7 @@ public class Commit {
     }
 
 
-    public Date getCommittedDateFormat(){
-        Date date = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        try {
-            date = dateFormat.parse(this.committedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
+
 
     @Override
     public String toString() {

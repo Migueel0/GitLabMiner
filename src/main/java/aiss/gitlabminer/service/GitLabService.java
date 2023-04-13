@@ -14,6 +14,7 @@ import utils.RESTUtil;
 
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
@@ -33,9 +34,10 @@ public class GitLabService {
         HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
         ResponseEntity<Commit[]> response =  restTemplate.exchange(uri, HttpMethod.GET, request, Commit[].class);
         List<Commit> commits = Arrays.stream(response.getBody()).toList();
-        List<Commit> sinceCommits = commits.stream().filter(x -> x.getCommittedDateFormat()
-                        .after(java.sql.Date.valueOf(LocalDate.now().minusDays(days))))
-                .toList();
+
+        List<Commit> sinceCommits = commits.stream().filter(x -> RESTUtil
+                .StringToLocalDateTime(x.getCommittedDate())
+                .isAfter(LocalDateTime.now().minusDays(days))).toList();
 
         return sinceCommits;
 
@@ -48,9 +50,10 @@ public class GitLabService {
         HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
         ResponseEntity<Issue[]> response =  restTemplate.exchange(uri, HttpMethod.GET, request, Issue[].class);
         List<Issue> commits = Arrays.stream(response.getBody()).toList();
-        List<Issue> sinceIssues = commits.stream().filter(x -> x.getUpdatedDate()
-                        .after(java.sql.Date.valueOf(LocalDate.now().minusDays(days))))
-                .toList();
+
+        List<Issue> sinceIssues = commits.stream().filter(x -> RESTUtil
+                .StringToLocalDateTime(x.getUpdatedAt())
+                .isAfter(LocalDateTime.now().minusDays(days))).toList();
 
         return sinceIssues;
 
