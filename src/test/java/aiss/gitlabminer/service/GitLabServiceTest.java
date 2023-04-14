@@ -27,7 +27,7 @@ class GitLabServiceTest {
     @Test
     @DisplayName("Display all issues")
     void sinceIssuesTest(){
-        List<Issue> issues =  gitLabService.sinceIssues("278964",20);
+        List<Issue> issues =  gitLabService.sinceIssues("278964",20,30);
         assertTrue(!issues.isEmpty());
         System.out.println(issues);
     }

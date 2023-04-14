@@ -57,18 +57,37 @@ public class GitLabService {
     }
 
     public List<Issue> sinceIssues(String id, Integer days){
+        Integer defaultPages = 2;
+        return sinceIssues(id,days,defaultPages);
+    }
+
+    public List<Issue> sinceIssues(String id, Integer days,Integer pages){
         String uri = baseUri + "/projects/" +  id + "/issues";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + RESTUtil.tokenReader("src/test/java/aiss/gitlabminer/token.txt"));
         HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
         ResponseEntity<Issue[]> response =  restTemplate.exchange(uri, HttpMethod.GET, request, Issue[].class);
-        List<Issue> commits = Arrays.stream(response.getBody()).toList();
+        List<Issue> issues = new ArrayList<>();
 
-        List<Issue> sinceIssues = commits.stream().filter(x -> RESTUtil
+        //FIRST PAGE
+        int page = 1;
+        issues.addAll(Arrays.stream(response.getBody()).filter(x -> RESTUtil
                 .StringToLocalDateTime(x.getUpdatedAt())
-                .isAfter(LocalDateTime.now().minusDays(days))).toList();
+                .isAfter(LocalDateTime.now().minusDays(days))).toList());
 
-        return sinceIssues;
+
+        //ADDING REMAINING PAGES
+        while (page <= pages && RESTUtil.getNextPageUrl(response.getHeaders())!= null){
+            String url =  RESTUtil.getNextPageUrl(response.getHeaders());
+            response =  restTemplate.exchange(url,HttpMethod.GET,request,Issue[].class);
+            List<Issue> issuePage = Arrays.stream(response.getBody()).filter(x -> RESTUtil
+                    .StringToLocalDateTime(x.getUpdatedAt())
+                    .isAfter(LocalDateTime.now().minusDays(days))).toList();
+            issues.addAll(issuePage);
+            page++;
+        }
+
+        return issues;
 
     }
 
