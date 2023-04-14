@@ -19,7 +19,7 @@ class GitLabServiceTest {
     @Test
     @DisplayName("Display all commits")
     void sinceCommitsTest(){
-        List<Commit> commits =  gitLabService.sinceCommit("278964",10);
+        List<Commit> commits =  gitLabService.sinceCommit("278964",1,30);
         assertTrue(!commits.isEmpty());
         System.out.println(commits);
     }
