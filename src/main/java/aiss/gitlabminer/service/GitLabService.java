@@ -9,11 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import utils.RESTUtil;
-
-import java.text.DateFormatSymbols;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -25,6 +21,12 @@ public class GitLabService {
     public List<Commit> sinceCommit(String id, Integer days){
         Integer defaultPages = 2;
         return sinceCommit(id,days,defaultPages);
+    }
+
+    public List<Commit> sinceCommit(String id){
+        Integer defaultPages = 2;
+        Integer defaultDays = 2;
+        return sinceCommit(id,defaultDays,defaultPages);
     }
 
     public List<Commit> sinceCommit(String id, Integer days, Integer pages){
@@ -59,6 +61,12 @@ public class GitLabService {
     public List<Issue> sinceIssues(String id, Integer days){
         Integer defaultPages = 2;
         return sinceIssues(id,days,defaultPages);
+    }
+
+    public List<Issue> sinceIssues(String id){
+        Integer defaultPages = 2;
+        Integer defaultDays = 20;
+        return sinceIssues(id,defaultDays,defaultPages);
     }
 
     public List<Issue> sinceIssues(String id, Integer days,Integer pages){
