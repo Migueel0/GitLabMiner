@@ -99,23 +99,23 @@ public class Project {
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("webUrl");
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("commits");
         sb.append('=');
         sb.append(((this.commits == null)?"<null>":this.commits));
-        sb.append(',');
+        sb.append(",\n");
         sb.append("issues");
         sb.append('=');
         sb.append(((this.issues == null)?"<null>":this.issues));
-        sb.append(',');
+        sb.append(",\n");
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
