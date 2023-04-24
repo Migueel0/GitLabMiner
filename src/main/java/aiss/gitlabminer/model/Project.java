@@ -28,10 +28,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Project {
     @Id
     @JsonProperty("id")
-    private String id;
+    public String id;
     @JsonProperty("name")
     @NotEmpty(message = "The name of the project cannot be empty")
-    private String name;
+    public String name;
     @JsonProperty("web_url")
     @NotEmpty(message = "The web url of the project cannot be empty")
     private String webUrl;
@@ -40,6 +40,11 @@ public class Project {
     private List<Commit> commits;
     @JsonProperty("issues")
     private List<Issue> issues;
+
+    public Project() {
+        commits = new ArrayList<>();
+        issues = new ArrayList<>();
+    }
 
     @JsonProperty("id")
     public String getId() {
@@ -85,6 +90,8 @@ public class Project {
     public void setIssues(List<Issue> issuesList) {
         this.issues = issuesList;
     }
+
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

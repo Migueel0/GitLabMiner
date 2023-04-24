@@ -2,6 +2,7 @@ package aiss.gitlabminer.model;
 
 import javax.annotation.Generated;
 
+import aiss.gitlabminer.service.GitLabService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,8 +23,7 @@ import java.util.Date;
     "committer_name",
     "committer_email",
     "committed_date",
-    "web_url",
-    "project"
+    "web_url"
 })
 
 
@@ -50,8 +50,6 @@ public class Commit {
     private String committedDate;
     @JsonProperty("web_url")
     private String webUrl;
-    @JsonProperty("project")
-    private Project project;
 
     @JsonProperty("id")
     public String getId() {
@@ -153,17 +151,6 @@ public class Commit {
         this.webUrl = webUrl;
     }
 
-    @JsonProperty("project")
-    public Project getProject() {
-        return project;
-    }
-    @JsonProperty("project")
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-
-
 
     @Override
     public String toString() {
@@ -208,9 +195,6 @@ public class Commit {
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(",\n");
-        sb.append("project");
-        sb.append('=');
-        sb.append(((this.project == null)?"<null>":this.project));
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {

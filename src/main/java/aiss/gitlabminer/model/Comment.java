@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "body",
     "created_at",
     "updated_at",
-    "issue",
     "author"
 })
 @Generated("jsonschema2pojo")
@@ -30,11 +29,8 @@ public class Comment {
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
-    @JsonProperty("issue")
-    private Issue issue;
     @JsonProperty("author")
     private User author;
-
 
     @JsonProperty("id")
     public String getId() {
@@ -76,15 +72,6 @@ public class Comment {
         this.updatedAt = updatedAt;
     }
 
-    @JsonProperty("issue")
-    public Issue getIssue() {
-        return issue;
-    }
-    @JsonProperty("issue")
-    public void setIssue(Issue issue) {
-        this.issue = issue;
-    }
-
     @JsonProperty("author")
     public User getAuthor() {
         return author;
@@ -115,11 +102,8 @@ public class Comment {
         sb.append('=');
         sb.append(((this.updatedAt == null)?"<null>":this.updatedAt));
         sb.append(',');
-        sb.append("issue");
-        sb.append('=');
-        sb.append(((this.issue == null)?"<null>":this.issue));
         sb.append(',');
-        sb.append("authort");
+        sb.append("author");
         sb.append('=');
         sb.append(((this.author == null)?"<null>":this.author));
         sb.append(',');

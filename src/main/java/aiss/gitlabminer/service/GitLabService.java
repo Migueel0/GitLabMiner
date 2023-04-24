@@ -1,6 +1,7 @@
 package aiss.gitlabminer.service;
 import aiss.gitlabminer.model.Commit;
 import aiss.gitlabminer.model.Issue;
+import aiss.gitlabminer.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,16 @@ public class GitLabService {
     @Autowired
     RestTemplate restTemplate;
     final String baseUri = "https://gitlab.com/api/v4/";
+
+
+
+
+    public Project getProjectById(String  id){
+        String uri = baseUri + "/projects/" +  id;
+        restTemplate =  new RestTemplate();
+        Project project = restTemplate.getForObject(uri, Project.class);
+        return project;
+    }
 
     public List<Commit> sinceCommit(String id, Integer days){
         Integer defaultPages = 2;
@@ -35,14 +46,12 @@ public class GitLabService {
         headers.set("Authorization", "Bearer " + RESTUtil.tokenReader("src/test/java/aiss/gitlabminer/token.txt"));
         HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
         ResponseEntity<Commit[]> response =  restTemplate.exchange(uri, HttpMethod.GET, request, Commit[].class);
-
         //FIRST PAGE
         List<Commit> commits = new ArrayList<>();
         commits.addAll(Arrays.stream(response.getBody()).filter(x -> RESTUtil
                 .StringToLocalDateTime(x.getCommittedDate())
                 .isAfter(LocalDateTime.now().minusDays(days))).toList());
         int page = 1;
-
         //ADDING REMAINING PAGES
         while (page <= pages && RESTUtil.getNextPageUrl(response.getHeaders())!= null){
             String url =  RESTUtil.getNextPageUrl(response.getHeaders());
@@ -57,7 +66,6 @@ public class GitLabService {
         return commits;
 
     }
-
     public List<Issue> sinceIssues(String id, Integer days){
         Integer defaultPages = 2;
         return sinceIssues(id,days,defaultPages);
@@ -68,7 +76,6 @@ public class GitLabService {
         Integer defaultDays = 20;
         return sinceIssues(id,defaultDays,defaultPages);
     }
-
     public List<Issue> sinceIssues(String id, Integer days,Integer pages){
         String uri = baseUri + "/projects/" +  id + "/issues";
         HttpHeaders headers = new HttpHeaders();
@@ -98,7 +105,6 @@ public class GitLabService {
         return issues;
 
     }
-
 
 
 }
