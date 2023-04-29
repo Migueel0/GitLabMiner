@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "id",
-    "ref_id",
+    "iid",
     "title",
     "description",
     "state",
@@ -21,20 +21,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "updated_at",
     "closed_at",
     "labels",
+    "author",
+    "assignee",
     "upvotes",
     "downvotes",
-    "project",
-    "comments",
-    "author",
-    "assignee"
+    "web_url",
+    "comments"
+
 })
 @Generated("jsonschema2pojo")
 public class Issue {
 
     @JsonProperty("id")
     private String id;
-    @JsonProperty("ref_id")
-    private Integer refId;
+    @JsonProperty("iid")
+    private String refId;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
@@ -49,18 +50,18 @@ public class Issue {
     private String closedAt;
     @JsonProperty("labels")
     private List<String> labels;
-    @JsonProperty("upvotes")
-    private Integer upvotes;
-    @JsonProperty("downvotes")
-    private Integer downvotes;
-    @JsonProperty("project")
-    private Project project;
-    @JsonProperty("comments")
-    private List<Comment> comments;
     @JsonProperty("author")
     private User author;
     @JsonProperty("assignee")
     private User assignee;
+    @JsonProperty("upvotes")
+    private Integer upvotes;
+    @JsonProperty("downvotes")
+    private Integer downvotes;
+    @JsonProperty("web_url")
+    private String webUrl;
+    @JsonProperty("comments")
+    private List<Comment> comments;
 
     @JsonProperty("id")
     public String getId() {
@@ -72,13 +73,13 @@ public class Issue {
         this.id = id;
     }
 
-    @JsonProperty("ref_id")
-    public Integer getRefId() {
+    @JsonProperty("iid")
+    public String getRefId() {
         return refId;
     }
 
-    @JsonProperty("ref_id")
-    public void setRefId(Integer refId) {
+    @JsonProperty("iid")
+    public void setRefId(String refId) {
         this.refId = refId;
     }
 
@@ -171,23 +172,6 @@ public class Issue {
     public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
     }
-
-    @JsonProperty("project")
-    public Project getProject() {
-        return project;
-    }
-    @JsonProperty("project")
-    public void setProject(Project project) {
-        this.project = project;
-    }
-    @JsonProperty("comments")
-    public List<Comment> getComments() {
-        return comments;
-    }
-    @JsonProperty("comments")
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
     @JsonProperty("author")
     public User getAuthor() {
         return author;
@@ -204,6 +188,27 @@ public class Issue {
     public void setAssignee(User assignee) {
         this.assignee = assignee;
     }
+
+    @JsonProperty("web_url")
+    public String getWebUrl() {
+        return webUrl;
+    }
+    @JsonProperty("web_url")
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+    @JsonProperty("comments")
+    public List<Comment> getComments() {
+        return comments;
+    }
+    @JsonProperty("comments")
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+
+
+
 
 
     @Override
@@ -253,14 +258,6 @@ public class Issue {
         sb.append('=');
         sb.append(((this.downvotes == null)?"<null>":this.downvotes));
         sb.append(",\n");
-        sb.append("project");
-        sb.append('=');
-        sb.append(((this.project == null)?"<null>":this.project));
-        sb.append(",\n");
-        sb.append("comments");
-        sb.append('=');
-        sb.append(((this.comments == null)?"<null>":this.comments));
-        sb.append(",\n");
         sb.append("author");
         sb.append('=');
         sb.append(((this.author == null)?"<null>":this.author));
@@ -268,6 +265,14 @@ public class Issue {
         sb.append("assignee");
         sb.append('=');
         sb.append(((this.assignee == null)?"<null>":this.assignee));
+        sb.append(",\n");
+        sb.append("web_url");
+        sb.append('=');
+        sb.append(((this.webUrl == null)?"<null>":this.webUrl));
+        sb.append(",\n");
+        sb.append("comments");
+        sb.append('=');
+        sb.append(((this.comments == null)?"<null>":this.comments));
         sb.append(",\n");
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

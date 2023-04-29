@@ -92,7 +92,7 @@ public class Comment {
         sb.append(',');
         sb.append("body");
         sb.append('=');
-        sb.append(((this.body == null)?"<null>":this.body));
+       // sb.append(((this.body == null)?"<null>":this.body));
         sb.append(',');
         sb.append("createdAt");
         sb.append('=');
