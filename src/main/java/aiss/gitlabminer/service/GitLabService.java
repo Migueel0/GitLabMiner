@@ -10,16 +10,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import utils.RESTUtil;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@RestController
+@RequestMapping("gitlabminer")
 public class GitLabService {
     @Autowired
     RestTemplate restTemplate;
     final String baseUri = "https://gitlab.com/api/v4/";
+    final String gitMinerUri = "http://localhost:8080/gitminer";
 
     public Project getProjectById(String id){
         String uri = baseUri + "/projects/" +  id;
@@ -30,76 +34,11 @@ public class GitLabService {
         return response.getBody();
     }
 
-    public Project allData(String id){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommits(id));
-        data.setIssues(sinceIssues(id));
-        return data;
-    }
-
-    public Project allData(String id,Integer sinceCommits, Integer sinceIssues){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommitsDays(id,sinceCommits));
-        data.setIssues(sinceIssuesDays(id,sinceIssues));
-        return data;
-    }
-
     public Project allData(String id, Integer sinceCommits, Integer sinceIssues,Integer maxPages){
         Project data = getProjectById(id);
         data.setCommits(sinceCommits(id,sinceCommits,maxPages));
         data.setIssues(sinceIssues(id,sinceIssues,maxPages));
         return data;
-    }
-
-    public Project allDataCommits(String id, Integer sinceCommits){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommitsDays(id,sinceCommits));
-        data.setIssues(sinceIssues(id));
-        return data;
-    }
-
-    public Project allDataIssues(String id, Integer sinceIssues){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommits(id));
-        data.setIssues(sinceIssuesDays(id,sinceIssues));
-        return data;
-    }
-
-    public Project allDataPages(String id,Integer maxPages){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommitsPages(id,maxPages));
-        data.setIssues(sinceIssuesPages(id,maxPages));
-        return data;
-    }
-
-    public Project allDataPagesCommits(String id,Integer sinceCommits, Integer maxPages){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommits(id,sinceCommits,maxPages));
-        data.setIssues(sinceIssuesPages(id,maxPages));
-        return data;
-    }
-
-    public Project allDataPagesIssues(String id,Integer sinceIssues,Integer maxPages){
-        Project data = getProjectById(id);
-        data.setCommits(sinceCommitsPages(id,maxPages));
-        data.setIssues(sinceIssues(id,sinceIssues,maxPages));
-        return data;
-    }
-
-    public List<Commit> sinceCommitsDays(String id, Integer days){
-        Integer defaultPages = 2;
-        return sinceCommits(id,days,defaultPages);
-    }
-
-    public List<Commit> sinceCommitsPages(String id, Integer pages){
-        Integer defaultDays = 2;
-        return sinceCommits(id,defaultDays,pages);
-    }
-
-    public List<Commit> sinceCommits(String id){
-        Integer defaultPages = 2;
-        Integer defaultDays = 2;
-        return sinceCommits(id,defaultDays,defaultPages);
     }
 
     public List<Commit> sinceCommits(String id, Integer days, Integer pages){
@@ -125,22 +64,6 @@ public class GitLabService {
             page++;
         }
         return commits;
-    }
-
-    public List<Issue> sinceIssuesDays(String id, Integer days){
-        Integer defaultPages = 2;
-        return sinceIssues(id,days,defaultPages);
-    }
-
-    public List<Issue> sinceIssuesPages(String id, Integer pages){
-        Integer defaultDays = 20;
-        return sinceIssues(id,defaultDays,pages);
-    }
-
-    public List<Issue> sinceIssues(String id){
-        Integer defaultPages = 2;
-        Integer defaultDays = 20;
-        return sinceIssues(id,defaultDays,defaultPages);
     }
 
     public List<Comment> getNotes(String id, String iid){
@@ -176,8 +99,22 @@ public class GitLabService {
             issues.addAll(issuePage);
             page++;
         }
-        issues.stream().forEach(x -> x.setComments(getNotes(id, x.getRefId())));
+        issues.forEach(x -> x.setComments(getNotes(id, x.getRefId())));
         return issues;
     }
+
+    @GetMapping("/{id}")
+    public Project getData(@PathVariable String id, @RequestParam(defaultValue = "5") Integer sinceCommits,
+                           @RequestParam(defaultValue = "20") Integer sinceIssues, @RequestParam(defaultValue = "2") Integer maxPages){
+        return allData(id, sinceCommits, sinceIssues, maxPages);
+    }
+
+    @PostMapping("/{id}")
+    public Project sendData(@PathVariable String id, @RequestParam(defaultValue = "5") Integer sinceCommits,
+                            @RequestParam(defaultValue = "20") Integer sinceIssues, @RequestParam(defaultValue = "2") Integer maxPages){
+        Project newProject = restTemplate.postForObject(gitMinerUri + "/" + id,allData(id, sinceCommits, sinceIssues, maxPages),Project.class);
+        return newProject;
+    }
+
 
 }
