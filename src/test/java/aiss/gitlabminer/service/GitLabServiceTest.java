@@ -1,5 +1,6 @@
 package aiss.gitlabminer.service;
 
+import aiss.gitlabminer.model.Comment;
 import aiss.gitlabminer.model.Commit;
 import aiss.gitlabminer.model.Issue;
 import aiss.gitlabminer.model.Project;
@@ -8,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import utils.RESTUtil;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -77,6 +80,7 @@ class GitLabServiceTest {
         //Checking the status code
         assertEquals(HttpStatus.OK, status,"Status code must be OK");
 
+
         //Checking response fields
         for(Commit commit: commits){
 
@@ -138,10 +142,70 @@ class GitLabServiceTest {
     }
 
     @Test
-    @DisplayName("Display all data")
+    @DisplayName("Testing all data")
     void allDataTest(){
-        Project data =  gitLabService.allData("4207231",5,20,1);
-        System.out.println(data);
+
+        String id = "278964";
+        String name = "GitLab";
+
+        Project data =  gitLabService.allData("278964",5,20,1);
+
+        assertNotNull(data.getId(), "Id cannot be null");
+        assertNotNull(data.getName(), "Name cannot be null");
+        assertEquals(id,data.getId(),"Provided id must be equal the project Id");
+        assertEquals(name,data.getName(),"Provided name must be equal the project name");
+
+
+        System.out.println("Test passed");
+    }
+
+    @Test
+    @DisplayName("Testing authorization")
+
+    void authorizationTest(){
+
+        String id = "278964";
+        String iid= "409313";
+
+        //Checking response with correct token authorization
+        String uri = baseUri + "/projects/" +  id + "/issues/" + iid + "/notes";
+        HttpHeaders headersCorrectToken  = new HttpHeaders();
+        headersCorrectToken.set("Authorization", "Bearer " + RESTUtil.tokenReader("src/test/java/aiss/gitlabminer/token.txt"));
+        HttpEntity<String[]> requestValidToken = new HttpEntity<>(null,headersCorrectToken);
+        ResponseEntity<Comment[]> responseValidToken = restTemplate.exchange(uri,HttpMethod.GET,requestValidToken,Comment[].class);
+        HttpStatus okStatus = responseValidToken.getStatusCode();
+
+        //Checking the status code
+        assertEquals(HttpStatus.OK, okStatus,"Status code must be OK");
+
+
+        ///Checking response with no token authorization
+        HttpHeaders headersNoToken  = new HttpHeaders();
+        HttpEntity<String[]> requestNoToken = new HttpEntity<>(null,headersNoToken);
+
+        try {
+            restTemplate.exchange(uri, HttpMethod.GET, requestNoToken, Comment[].class);
+        }catch (HttpClientErrorException e) {
+            //Checking the status code
+            HttpStatus errorStatus = e.getStatusCode();
+            assertEquals(HttpStatus.UNAUTHORIZED, errorStatus, "Status code must be unauthorized");
+        }
+
+
+        //Checking response with not valid token
+        HttpHeaders headersNotValidToken  = new HttpHeaders();
+        headersNotValidToken.set("Authorization", "This is an invalid token");
+        HttpEntity<String[]> requestNotValidToken = new HttpEntity<>(null,headersNotValidToken);
+        try {
+            restTemplate.exchange(uri, HttpMethod.GET, requestNotValidToken, Comment[].class);
+        }catch (HttpClientErrorException e) {
+            //Checking the status code
+            HttpStatus errorStatus = e.getStatusCode();
+            assertEquals(HttpStatus.UNAUTHORIZED, errorStatus, "Status code must be unauthorized");
+        }
+
+        System.out.println("Test passed");
+
     }
 
 }
