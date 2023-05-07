@@ -99,7 +99,14 @@ public class GitLabService {
             issues.addAll(issuePage);
             page++;
         }
-        issues.forEach(x -> x.setComments(getNotes(id, x.getRefId())));
+        issues.forEach(x -> {
+            x.setComments(getNotes(id, x.getIid()));
+            String refId = x.getIid();
+            x.setRefId(refId);
+
+        } );
+
+
         return issues;
     }
 

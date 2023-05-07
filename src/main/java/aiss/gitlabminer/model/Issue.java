@@ -6,14 +6,12 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Generated;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
+
 @JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "id",
-    "iid",
+    "ref_id",
     "title",
     "description",
     "state",
@@ -35,6 +33,9 @@ public class Issue {
     @JsonProperty("id")
     private String id;
     @JsonProperty("iid")
+    @JsonIgnore
+    private String iid;
+    @JsonProperty("ref_id")
     private String refId;
     @JsonProperty("title")
     private String title;
@@ -74,13 +75,23 @@ public class Issue {
     }
 
     @JsonProperty("iid")
-    public String getRefId() {
-        return refId;
+    @JsonIgnore
+    public String getIid() {
+        return iid;
     }
 
-    @JsonProperty("iid")
+    public void setIid(String refId) {
+        this.iid = refId;
+    }
+
+    @JsonProperty("ref_id")
+    public String getRefId() {
+        return iid;
+    }
+
+    @JsonProperty("ref_id")
     public void setRefId(String refId) {
-        this.refId = refId;
+        this.iid = refId;
     }
 
     @JsonProperty("title")
