@@ -17,13 +17,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@RestController
-@RequestMapping("gitlabminer")
 public class GitLabService {
     @Autowired
     RestTemplate restTemplate;
     final String baseUri = "https://gitlab.com/api/v4/";
-    final String gitMinerUri = "http://localhost:8080/gitminer";
 
     public Project getProjectById(String id){
         String uri = baseUri + "/projects/" +  id;
@@ -110,18 +107,7 @@ public class GitLabService {
         return issues;
     }
 
-    @GetMapping("/{id}")
-    public Project getData(@PathVariable String id, @RequestParam(defaultValue = "5") Integer sinceCommits,
-                           @RequestParam(defaultValue = "20") Integer sinceIssues, @RequestParam(defaultValue = "2") Integer maxPages){
-        return allData(id, sinceCommits, sinceIssues, maxPages);
-    }
 
-    @PostMapping("/{id}")
-    public Project sendData(@PathVariable String id, @RequestParam(defaultValue = "5") Integer sinceCommits,
-                            @RequestParam(defaultValue = "20") Integer sinceIssues, @RequestParam(defaultValue = "2") Integer maxPages){
-        Project newProject = restTemplate.postForObject(gitMinerUri + "/" + id,allData(id, sinceCommits, sinceIssues, maxPages),Project.class);
-        return newProject;
-    }
 
 
 }
