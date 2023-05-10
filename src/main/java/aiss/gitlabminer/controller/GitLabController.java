@@ -12,7 +12,7 @@ import aiss.gitlabminer.service.GitLabService;
 @RequestMapping("/gitlabminer")
 public class GitLabController {
 
-    final String gitMinerUri = "http://localhost:8080/gitminer";
+    final String gitMinerUri = "http://localhost:8080/gitminer/v1/projects";
     @Autowired
     RestTemplate restTemplate;
 
