@@ -228,6 +228,7 @@ public class Issue {
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
+        /*
         sb.append(",\n");
         sb.append("refId");
         sb.append('=');
@@ -284,7 +285,7 @@ public class Issue {
         sb.append("comments");
         sb.append('=');
         sb.append(((this.comments == null)?"<null>":this.comments));
-        sb.append(",\n");
+        sb.append(",\n");*/
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {

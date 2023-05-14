@@ -15,12 +15,22 @@ import utils.RESTUtil;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class GitLabServiceTest {
+
     @Autowired
-    GitLabService gitLabService;
+    CommentService commentService;
+    @Autowired
+    CommitService commitService;
+    @Autowired
+    IssueService issueService;
+    @Autowired
+    ProjectService projectService;
+
     @Autowired
     RestTemplate restTemplate;
     final String baseUri = "https://gitlab.com/api/v4/";
@@ -46,7 +56,7 @@ class GitLabServiceTest {
 
         //Checking response fields
         assertTrue(response.hasBody());
-        Project project = gitLabService.getProjectById(id);
+        Project project = projectService.getProjectById(id);
         assertNotNull(project.getId(), "Id cannot be null");
         assertNotNull(project.getName(), "Name cannot be null");
         assertEquals(id,project.getId(),"Provided id must be equal the project Id");
@@ -66,7 +76,7 @@ class GitLabServiceTest {
         String id = "278964";
         Integer days = 1;
         Integer pages = 30;
-        List<Commit> commits =  gitLabService.sinceCommits(id,days,pages);
+        List<Commit> commits = commitService.sinceCommits(id,days,pages);
 
         String uri = baseUri + "/projects/" +  id + "/repository/commits";
 
@@ -105,7 +115,8 @@ class GitLabServiceTest {
         String id = "278964";
         Integer days = 20;
         Integer pages = 1;
-        List<Issue> issues =  gitLabService.sinceIssues(id,days,pages);
+        List<Issue> issues = issueService.sinceIssues(id,days,pages);
+        System.out.println(issues.stream().collect(Collectors.toSet()));
 
         String uri = baseUri + "/projects/" +  id + "/issues";
 
@@ -148,7 +159,7 @@ class GitLabServiceTest {
         String id = "278964";
         String name = "GitLab";
 
-        Project data =  gitLabService.allData("278964",5,20,1);
+        Project data = projectService.allData("278964",5,20,2);
 
         assertNotNull(data.getId(), "Id cannot be null");
         assertNotNull(data.getName(), "Name cannot be null");
@@ -157,6 +168,8 @@ class GitLabServiceTest {
 
 
         System.out.println("Test passed");
+        System.out.println(data.getIssues().size());
+        System.out.println(data.getCommits().size());
     }
 
     @Test

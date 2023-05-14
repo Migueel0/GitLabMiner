@@ -50,7 +50,6 @@ public class RESTUtil {
                 break;
             }
         }
-
         return result;
     }
 
