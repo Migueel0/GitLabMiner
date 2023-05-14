@@ -12,6 +12,8 @@ import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import utils.RESTUtil;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -77,8 +79,8 @@ class GitLabServiceTest {
         Integer days = 1;
         Integer pages = 30;
         List<Commit> commits = commitService.sinceCommits(id,days,pages);
-
-        String uri = baseUri + "/projects/" +  id + "/repository/commits";
+        LocalDate date = LocalDate.now().minusDays(days);
+        String uri = baseUri + "/projects/" +  id + "/repository/commits?page=1&per_page=20&since=" + date;
 
         //Consuming API in order to get the status code
         HttpHeaders headers = new HttpHeaders();
@@ -116,7 +118,6 @@ class GitLabServiceTest {
         Integer days = 20;
         Integer pages = 1;
         List<Issue> issues = issueService.sinceIssues(id,days,pages);
-        System.out.println(issues.stream().collect(Collectors.toSet()));
 
         String uri = baseUri + "/projects/" +  id + "/issues";
 
@@ -168,8 +169,6 @@ class GitLabServiceTest {
 
 
         System.out.println("Test passed");
-        System.out.println(data.getIssues().size());
-        System.out.println(data.getCommits().size());
     }
 
     @Test
